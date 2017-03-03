@@ -59,9 +59,13 @@ angular.module('orsApp.settings-service', []).factory('orsSettingsFactory', ['$t
     orsSettingsFactory.getActiveOptions = () => {
         return orsSettingsFactory[currentSettingsObj].getValue().profile.options;
     };
-    orsSettingsFactory.setActiveOptions = (options) => {
+    orsSettingsFactory.setActiveOptions = (options, fireRequest) => {
         orsSettingsFactory[currentSettingsObj].getValue().profile.options = options;
-        orsSettingsFactory[currentSettingsObj].onNext(orsSettingsFactory[currentSettingsObj].getValue());
+        console.log(orsSettingsFactory[currentSettingsObj].getValue())
+        if (fireRequest) orsSettingsFactory[currentSettingsObj].onNext(orsSettingsFactory[currentSettingsObj].getValue());
+        if (orsSettingsFactory.isInitialized) {
+            orsUtilsService.parseSettingsToPermalink(orsSettingsFactory[currentSettingsObj].getValue(), orsSettingsFactory.getUserOptions());
+        }
     };
     /**
      * Returns current settings.
@@ -174,9 +178,7 @@ angular.module('orsApp.settings-service', []).factory('orsSettingsFactory', ['$t
                 console.error(response);
             });
         }
-        if (orsSettingsFactory.isInitialized) {
-            orsUtilsService.parseSettingsToPermalink(settings, orsSettingsFactory.getUserOptions());
-        }
+        
     });
     /** Subscription function to current accessibility settings */
     orsSettingsFactory.aaSettingsSubject.subscribe(settings => {
@@ -195,9 +197,7 @@ angular.module('orsApp.settings-service', []).factory('orsSettingsFactory', ['$t
                 // orsAaService.parseResponseToPolygonJSON(response);
             }, function(response) {});
         }
-        if (orsSettingsFactory.isInitialized) {
-            orsUtilsService.parseSettingsToPermalink(settings, orsSettingsFactory.getUserOptions());
-        }
+        
     });
     /** Fetches address 
      * @param {Object} pos - latLng Object 
@@ -255,6 +255,7 @@ angular.module('orsApp.settings-service', []).factory('orsSettingsFactory', ['$t
         if (fireRequest) orsSettingsFactory[currentSettingsObj].onNext(orsSettingsFactory[currentSettingsObj].getValue());
         /** For map to update */
         if (fireRequest) orsSettingsFactory[currentWaypointsObj].onNext(waypoints);
+        orsUtilsService.parseSettingsToPermalink(orsSettingsFactory[currentSettingsObj].getValue(), orsSettingsFactory.getUserOptions());
     };
     /**
      * Inserts waypoint to settings waypoints when added on map. This can
@@ -320,6 +321,7 @@ angular.module('orsApp.settings-service', []).factory('orsSettingsFactory', ['$t
      * @param {Object} currentProfile - current profile.
      */
     orsSettingsFactory.setProfile = (currentProfile) => {
+        orsUtilsService.parseSettingsToPermalink(orsSettingsFactory[currentSettingsObj].getValue(), orsSettingsFactory.getUserOptions());
         let set = orsSettingsFactory[currentSettingsObj].getValue();
         set.profile.type = currentProfile.type;
         /** Fire a new request if on route. */

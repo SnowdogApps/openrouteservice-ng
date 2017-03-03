@@ -38,6 +38,9 @@ angular.module('orsApp', ['orsApp.ors-nav', 'orsApp.ors-panel-routing', 'orsApp.
                 // do something on error
                 let messagingService = $injector.get('orsMessagingService');
                 switch (rejection.status) {
+                    case 400:
+                        messagingService.messageSubject.onNext(lists.errors.CONNECTION);
+                        break;
                     case 404:
                         messagingService.messageSubject.onNext(lists.errors.CONNECTION);
                         break;
@@ -71,7 +74,7 @@ angular.module('orsApp', ['orsApp.ors-nav', 'orsApp.ors-panel-routing', 'orsApp.
 }]).config(['$translateProvider', '$windowProvider', /* 'storageFactory',*/
     function($translateProvider, $windowProvider /*, storageFactory*/ ) {
         var $window = $windowProvider.$get();
-        $translateProvider.useSanitizeValueStrategy('sanitize');
+        $translateProvider.useSanitizeValueStrategy('sanitizeParameters');
         //get the translations local folder
         $translateProvider.useStaticFilesLoader({
             prefix: 'languages/',
@@ -83,7 +86,7 @@ angular.module('orsApp', ['orsApp.ors-nav', 'orsApp.ors-panel-routing', 'orsApp.
 ]).controller('RootController', function(orsSettingsFactory, orsObjectsFactory, orsMapFactory, $route) {
     // add map
     let ctrl = this;
-    ctrl.myOrsMap = orsMapFactory.initMapA("map");
+    ctrl.myOrsMap = orsMapFactory.initMap("map");
 });
 Array.prototype.move = function(from, to) {
     this.splice(to, 0, this.splice(from, 1)[0]);

@@ -13,14 +13,23 @@ angular.module('orsApp.ors-aa-query', []).component('orsAaQuery', {
     },
     controller: ['orsMessagingService', 'orsAaService', function(orsMessagingService, orsAaService) {
         let ctrl = this;
-        ctrl.showOnMap = true;
+        ctrl.$onInit = () => {
+            console.log('INIT')
+            ctrl.showOnMap = true;
+            ctrl.onToggle({
+                obj: {
+                    isoidx: ctrl.isochroneIdx,
+                    zoom: true
+                }
+            });
+        };
         ctrl.getClass = (bool) => {
             if (bool === true) return "fa fa-fw fa-chevron-down";
             else return "fa fa-fw fa-chevron-right";
         };
-        ctrl.show = (bool) => {
-            if (bool === true) return "fa fa-eye";
-            else return "fa fa-eye-slash";
+        ctrl.show = () => {
+            if (ctrl.showOnMap === true) return "fa fa-toggle-on";
+            else return "fa fa-toggle-off";
         };
         ctrl.zoomTo = (isonum) => {
             if (ctrl.showOnMap) {
@@ -33,7 +42,10 @@ angular.module('orsApp.ors-aa-query', []).component('orsAaQuery', {
         ctrl.toggle = () => {
             ctrl.showOnMap = ctrl.showOnMap === true ? false : true;
             ctrl.onToggle({
-                isoidx: ctrl.isochroneIdx
+                obj: {
+                    isoidx: ctrl.isochroneIdx,
+                    zoom: false
+                }
             });
         };
         ctrl.download = () => {

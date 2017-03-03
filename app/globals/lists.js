@@ -19,38 +19,49 @@ lists.wpColors = {
     0: '#9e9e9e',
     1: '#707070'
 };
-lists.geocodingContainers = {
-    reverse: {
-        inner: 'ReverseGeocodedLocation',
-        outer: 'ReverseGeocodeResponse'
-    },
-    geocoding: {
-        inner: 'GeocodedAddress',
-        outer: 'GeocodeResponseList'
-    }
-};
 lists.waypointIcons = {
     0: {
-        iconUrl: 'img/start.png',
-        iconSize: [30, 70], // size of the icon
-        iconAnchor: [15, 35] // point of the icon which will correspond to marker's location
+        className: "ors-marker-start",
+        iconSize: [45, 45],
+        iconAnchor: [22, 45],
+        html: '<i class="fa fa-map-marker"></i>'
+    },
+    1: {
+        className: "ors-marker-via",
+        iconSize: [45, 45],
+        iconAnchor: [22, 45],
+        html: '<i class="fa fa-map-marker"></i>'
     },
     2: {
-        iconUrl: 'img/end.png',
-        iconSize: [30, 70], // size of the icon
-        iconAnchor: [15, 35] // point of the icon which will correspond to marker's location
-    },
-    // anything else
-    1: {
-        iconUrl: 'img/via.png',
-        iconSize: [30, 70], // size of the icon
-        iconAnchor: [15, 35] // point of the icon which will correspond to marker's location
+        className: "ors-marker-end",
+        iconSize: [45, 45],
+        iconAnchor: [22, 45],
+        html: '<i class="fa fa-map-marker"></i>'
     },
     3: {
-        iconUrl: 'img/center.png',
-        iconSize: [30, 70], // size of the icon
-        iconAnchor: [15, 35] // point of the icon which will correspond to marker's location
-    }
+        className: "ors-marker-location",
+        iconSize: [45, 45],
+        iconAnchor: [22, 45],
+        html: '<i class="fa fa-map-marker"></i>'
+    },
+    4: {
+        className: "ors-marker-start-highlight",
+        iconSize: [45, 45],
+        iconAnchor: [22, 45],
+        html: '<i class="fa fa-map-marker"></i>'
+    },
+    5: {
+        className: "ors-marker-via-highlight",
+        iconSize: [45, 45],
+        iconAnchor: [22, 45],
+        html: '<i class="fa fa-map-marker"></i>'
+    },
+    6: {
+        className: "ors-marker-end-highlight",
+        iconSize: [45, 45],
+        iconAnchor: [22, 45],
+        html: '<i class="fa fa-map-marker"></i>'
+    },
 };
 lists.profiles = {
     Car: {
@@ -197,7 +208,7 @@ lists.optionList = {
         },
         steps: {
             name: 'steps',
-            subgroups: ['Wheelchair', 'Pedestrian']
+            subgroups: ['Wheelchair', 'Pedestrian', 'Bicycle']
         },
         highways: {
             name: 'highways',
@@ -426,11 +437,11 @@ lists.isochroneOptionList = {
 lists.userOptions = {
     languages: {
         default: 'en-US',
-        all: ['de-DE', 'en-US']
+        all: ['de-DE', 'en-US', 'zh-CN', 'pt-PT']
     },
     routinglanguages: {
         default: 'en',
-        all: ['de', 'en', 'es', 'fr', 'it', 'nl', 'hu', 'ru', 'ua', 'cz', 'pl', 'cnsimple', 'cn', 'bg', 'hr', 'nl_BE', 'eo', 'fi', 'fr', 'pl', 'pt_BR', 'ro', 'se', 'dk', 'tr', 'ca', 'ja', 'no', 'vi', 'nb', 'de-rheinl', 'de-opplat', 'de-berlin', 'de-swabia', 'de-ruhrpo', 'de-at-ooe', 'de-bay']
+        all: ['de', 'en', 'es', 'pt', 'ru']
     },
     units: {
         default: 'km',
@@ -463,7 +474,8 @@ lists.layers = {
     2: 'layerEmph',
     3: 'layerAccessibilityAnalysis',
     4: 'layerTracks',
-    5: 'layerAccessibilityAnalysisNumberedMarkers'
+    5: 'layerAccessibilityAnalysisNumberedMarkers',
+    6: 'layerRouteNumberedMarkers'
 };
 lists.layerStyles = {
     route: function() {
@@ -489,7 +501,7 @@ lists.layerStyles = {
     },
     isochroneEmph: function() {
         return {
-            color: 'black',
+            color: '#FFF',
             weight: 3,
             opacity: 1
         };
@@ -536,4 +548,15 @@ lists.errors = {
         translate: 'GENERALERROR',
         color: 1
     }
+};
+lists.avoidFlags = {
+    Highways: 1, // 1 << 0;
+    Tollways: 2, // 1 << 1;
+    Steps: 2, // 1 << 1;
+    Ferries: 4, // 1 << 2;
+    UnpavedRoads: 8, // 1 << 3;
+    Tracks: 16, // 1 << 4;
+    Tunnels: 32, // 1 << 5;
+    PavedRoads: 64, // 1 << 6;
+    Fords: 128, // 1 << 7;
 };

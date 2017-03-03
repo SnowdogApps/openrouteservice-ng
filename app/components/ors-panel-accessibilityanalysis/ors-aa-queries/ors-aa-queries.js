@@ -6,8 +6,6 @@ angular.module('orsApp.ors-aa-queries', ['orsApp.ors-aa-query', 'orsApp.ors-expo
         ctrl.aaQueries = orsAaService.aaQueries;
         orsAaService.subscribeToAaQueries(function onNext(d) {
             ctrl.aaQueries.push(d);
-            // add newest isochrone to map with addToMap()
-            ctrl.toggleQuery(ctrl.aaQueries.length - 1);
         });
         ctrl.deleteQuery = (isoidx) => {
             // turn off isochrones with this index
@@ -17,8 +15,8 @@ angular.module('orsApp.ors-aa-queries', ['orsApp.ors-aa-query', 'orsApp.ors-expo
             // re-add all indices as custom indices won't correspond anymore
             orsAaService.reshuffle();
         };
-        ctrl.toggleQuery = (isoidx) => {
-            orsAaService.toggleQuery(isoidx, ctrl.aaQueries[isoidx]);
+        ctrl.toggleQuery = (obj) => {
+            orsAaService.toggleQuery(obj.isoidx, ctrl.aaQueries[obj.isoidx], obj.zoom);
         };
         ctrl.removeQuery = (isoidx) => {
             orsAaService.removeQuery(isoidx);
@@ -45,11 +43,5 @@ angular.module('orsApp.ors-aa-queries', ['orsApp.ors-aa-query', 'orsApp.ors-expo
         ctrl.deEmph = () => {
             orsAaService.DeEmph();
         };
-        // coming back?
-        if (ctrl.aaQueries.length > 0) {
-            for (let i = 0; i < ctrl.aaQueries.length; i++) {
-                orsAaService.toggleQuery(i, ctrl.aaQueries[i].features, ctrl.aaQueries[i].info.query.locations[0]);
-            }
-        }
     }]
 });

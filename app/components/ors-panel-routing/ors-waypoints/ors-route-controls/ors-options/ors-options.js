@@ -11,8 +11,9 @@ angular.module('orsApp.ors-options', []).component('orsOptions', {
         ctrl.$onInit = () => {
             /** This is a reference of the settings object, if we change here, it is updated in settings */
             ctrl.currentOptions = orsSettingsFactory.getActiveOptions();
-            // set weight slider from params
-            ctrl.currentOptions.weight = ctrl.currentOptions.weight !== undefined ? ctrl.currentOptions.weight : ctrl.optionList.weight.Fastest;
+            console.log(ctrl.currentOptions)
+            // preference/weight is only considered for routing panel
+            if (ctrl.routing) ctrl.currentOptions.weight = ctrl.currentOptions.weight !== undefined ? ctrl.currentOptions.weight : ctrl.optionList.weight.Fastest.value;
             ctrl.weightSlider = {
                 value: ctrl.currentOptions.weight,
                 options: {
@@ -37,14 +38,15 @@ angular.module('orsApp.ors-options', []).component('orsOptions', {
             ctrl.maxspeedOptions = ctrl.optionList.maxspeeds[ctrl.activeSubgroup];
             // enable or disable checkbox depending on whether maxspeed is set
             let maxspeedVal;
-            if (ctrl.currentOptions.maxspeed >= "0") {
+            if (ctrl.currentOptions.maxspeed >= 0) {
                 maxspeedVal = ctrl.currentOptions.maxspeed;
                 ctrl.maxspeedCheckbox = true;
             } else {
                 maxspeedVal = ctrl.maxspeedOptions.default;
                 ctrl.maxspeedCheckbox = false;
             }
-            ctrl.toggleMaxspeedSlider = (fireRequest = false) => {
+            ctrl.toggleMaxspeedSlider = (fireRequest = true) => {
+                console.log('TOGGLED')
                 if (ctrl.maxspeedCheckbox === true) {
                     ctrl.maxspeedSlider.options.disabled = false;
                     ctrl.currentOptions.maxspeed = ctrl.maxspeedSlider.value;
@@ -52,7 +54,7 @@ angular.module('orsApp.ors-options', []).component('orsOptions', {
                     ctrl.maxspeedSlider.options.disabled = true;
                     delete ctrl.currentOptions.maxspeed;
                 }
-                ctrl.changeOptions(fireRequest);
+                if (fireRequest) ctrl.changeOptions();
             };
             ctrl.maxspeedSlider = {
                 value: maxspeedVal,
@@ -64,12 +66,13 @@ angular.module('orsApp.ors-options', []).component('orsOptions', {
                         return value + ' <b>km/h</b>';
                     },
                     onEnd: () => {
+                        console.log('ON END')
                         ctrl.currentOptions.maxspeed = ctrl.maxspeedSlider.value;
                         ctrl.changeOptions();
                     }
                 }
             };
-            ctrl.toggleMaxspeedSlider();
+            ctrl.toggleMaxspeedSlider(false);
             // set hgv options from params
             ctrl.currentOptions.height = ctrl.currentOptions.height !== undefined ? ctrl.currentOptions.height : ctrl.optionList.hgvParams.Height.min;
             ctrl.currentOptions.width = ctrl.currentOptions.width !== undefined ? ctrl.currentOptions.width : ctrl.optionList.hgvParams.Width.min;
@@ -291,17 +294,24 @@ angular.module('orsApp.ors-options', []).component('orsOptions', {
                 /** update slider settings */
                 if (ctrl.maxspeedSlider) {
                     ctrl.maxspeedSlider.value = ctrl.maxspeedOptions.default;
-                    ctrl.currentOptions.maxspeed = ctrl.maxspeedSlider.value;
                     ctrl.maxspeedSlider.options.floor = ctrl.maxspeedOptions.min;
                     ctrl.maxspeedSlider.options.ceil = ctrl.maxspeedOptions.max;
                     ctrl.maxspeedSlider.options.step = ctrl.maxspeedOptions.step;
+                    if (ctrl.currentOptions.maxspeed) {
+                        ctrl.currentOptions.maxspeed = ctrl.maxspeedSlider.value;
+                    }
                 }
             }
         };
-        ctrl.changeOptions = (fireRequest = true) => {
+        // Get the app route, we need this to know whether to fire a request when the options change
+        orsSettingsFactory.subscribeToNgRoute(function onNext(route) {
+            ctrl.routing = route == 'directions' ? true : false;
+        });
+        ctrl.changeOptions = () => {
             // call setoptions
+            console.log(ctrl.currentOptions)
             if (ctrl.currentOptions.difficulty) ctrl.difficultySliders.Fitness.options.disabled = ctrl.currentOptions.difficulty.avoidhills === true ? true : false;
-            if (fireRequest) orsSettingsFactory.setActiveOptions(ctrl.currentOptions);
+            orsSettingsFactory.setActiveOptions(ctrl.currentOptions, ctrl.routing);
         };
         ctrl.getClass = (bool) => {
             if (bool === true) return "fa fa-fw fa-chevron-down";
