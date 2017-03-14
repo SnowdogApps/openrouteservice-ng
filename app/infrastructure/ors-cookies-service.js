@@ -3,7 +3,10 @@ angular.module('orsApp.cookies-service', ['ngCookies']).factory('orsCookiesFacto
         let orsCookiesFactory = {};
         orsCookiesFactory.getCookies = () => {
             let userOptions = $cookies.getObject('userOptions');
-            var lang = $window.navigator.language || $window.navigator.userLanguage;
+            let lang = $window.navigator.language || $window.navigator.userLanguage;
+            // as safari returns lowercase only
+            lang = lang.split('-');
+            lang = lang[0] + '-' + lang[1].toUpperCase();
             if (userOptions === undefined) userOptions = {
                 language: lang
             };

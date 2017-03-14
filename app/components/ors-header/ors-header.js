@@ -9,10 +9,12 @@ angular.module('orsApp.ors-header', []).component('orsHeader', {
         object is defined, this is why we have two subscriptions */
         orsSettingsFactory.userOptionsSubject.subscribe(settings => {
             ctrl.currentOptions = settings;
+            console.log(ctrl.optionList, JSON.stringify(ctrl.currentOptions))
             if (!('language' in ctrl.currentOptions)) ctrl.currentOptions.language = ctrl.optionList.languages.default;
             if (!('routinglang' in ctrl.currentOptions)) ctrl.currentOptions.routinglang = ctrl.optionList.routinglanguages.default;
             if (!('units' in ctrl.currentOptions)) ctrl.currentOptions.units = ctrl.optionList.units.default;
             $translate.use(ctrl.currentOptions.language);
+            console.log(ctrl.currentOptions)
         });
         ctrl.changeOptions = (langChange) => {
             if (langChange) $translate.use(ctrl.currentOptions.language);
