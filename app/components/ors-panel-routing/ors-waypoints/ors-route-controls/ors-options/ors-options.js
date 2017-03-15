@@ -152,9 +152,9 @@ angular.module('orsApp.ors-options', []).component('orsOptions', {
                 }
             };
             // Difficulty settings
-            ctrl.currentOptions.fitness = ctrl.currentOptions.fitness !== undefined ? ctrl.optionList.difficulty.fitness[ctrl.currentOptions.fitness].value : ctrl.optionList.difficulty.fitness['-1'].value;
-            ctrl.fitnessValue = ctrl.optionList.difficulty.fitness[ctrl.currentOptions.fitness].name;
-            ctrl.currentOptions.steepness = ctrl.currentOptions.steepness !== undefined ? ctrl.currentOptions.steepness : ctrl.optionList.difficulty.steepness.min;
+            if (ctrl.routing) ctrl.currentOptions.fitness = ctrl.currentOptions.fitness !== undefined ? ctrl.optionList.difficulty.fitness[ctrl.currentOptions.fitness].value : ctrl.optionList.difficulty.fitness['-1'].value;
+            if (ctrl.routing) ctrl.fitnessValue = ctrl.optionList.difficulty.fitness[ctrl.currentOptions.fitness].name;
+            if (ctrl.routing) ctrl.currentOptions.steepness = ctrl.currentOptions.steepness !== undefined ? ctrl.currentOptions.steepness : ctrl.optionList.difficulty.steepness.min;
             ctrl.avoidHillsCheckbox();
             ctrl.difficultySliders = {
                 Fitness: {
@@ -278,12 +278,14 @@ angular.module('orsApp.ors-options', []).component('orsOptions', {
         ctrl.avoidHillsCheckbox = () => {
             let avoidhillsCheckbox = angular.element(document.querySelector('#cb-avoidhills'));
             let avoidhillsCheckboxInput = angular.element(document.querySelector('#cb-avoidhills-input'));
-            if (ctrl.optionList.difficulty.fitness[ctrl.currentOptions.fitness].value >= 0) {
-                avoidhillsCheckbox.addClass('disabled');
-                avoidhillsCheckboxInput.attr('disabled', 'disabled');
-            } else {
-                avoidhillsCheckbox.removeClass('disabled');
-                avoidhillsCheckboxInput.removeAttr('disabled');
+            if (ctrl.routing) {
+                if (ctrl.optionList.difficulty.fitness[ctrl.currentOptions.fitness].value >= 0) {
+                    avoidhillsCheckbox.addClass('disabled');
+                    avoidhillsCheckboxInput.attr('disabled', 'disabled');
+                } else {
+                    avoidhillsCheckbox.removeClass('disabled');
+                    avoidhillsCheckboxInput.removeAttr('disabled');
+                }
             }
         };
         ctrl.$onChanges = (changesObj) => {
