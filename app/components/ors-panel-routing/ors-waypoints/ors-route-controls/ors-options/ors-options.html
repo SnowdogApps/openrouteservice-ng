@@ -111,17 +111,19 @@
     </div>
     <div class="collapsable" ng-class="{ showMe: difficultyOptions }">
         <div class="ors-options-menu">
-            <div class="ui label tiny flleft">
-                <span ng-bind-html="('FITNESS' | translate)">
-                </span>
-                <span ng-bind-html="':'">
-                </span>
-                <div class="detail" ng-bind-html="$ctrl.fitnessValue">
+            <div ng-if="$ctrl.routing">
+                <div class="ui label tiny flleft">
+                    <span ng-bind-html="('FITNESS' | translate)">
+                    </span>
+                    <span ng-bind-html="':'">
+                    </span>
+                    <div class="detail" ng-bind-html="$ctrl.fitnessValue">
+                    </div>
                 </div>
-            </div>
-            <rzslider rz-slider-model="$ctrl.difficultySliders.Fitness.value" rz-slider-options="$ctrl.difficultySliders.Fitness.options">
-            </rzslider>
-            <div class="ui divider">
+                <rzslider rz-slider-model="$ctrl.difficultySliders.Fitness.value" rz-slider-options="$ctrl.difficultySliders.Fitness.options">
+                </rzslider>
+                <div class="ui divider">
+                </div>
             </div>
             <div class="ui checkbox" id="cb-avoidhills">
                 <input id="avoidhills" name="orsRouteDifficultyAvoidHills" ng-change="$ctrl.changeOptions()" ng-model="$ctrl.currentOptions.difficulty.avoidhills" type="checkbox">
@@ -129,12 +131,14 @@
                     </label>
                 </input>
             </div>
-            <div class="ui divider">
+            <div ng-if="$ctrl.routing">
+                <div class="ui divider">
+                </div>
+                <div class="ui label tiny flleft" ng-bind-html="('MAXIMUMSTEEPNESS' | translate)">
+                </div>
+                <rzslider rz-slider-model="$ctrl.difficultySliders.Steepness.value" rz-slider-options="$ctrl.difficultySliders.Steepness.options">
+                </rzslider>
             </div>
-            <div class="ui label tiny flleft" ng-bind-html="('MAXIMUMSTEEPNESS' | translate)">
-            </div>
-            <rzslider rz-slider-model="$ctrl.difficultySliders.Steepness.value" rz-slider-options="$ctrl.difficultySliders.Steepness.options">
-            </rzslider>
         </div>
     </div>
 </div>
