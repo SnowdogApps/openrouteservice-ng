@@ -1,6 +1,6 @@
 <ul>
     <li style="float: left">
-        <a href="http://openrouteservice.readthedocs.io/en/latest/" ng-bind-html="'<b>OpenRouteService</b>.org'" target="_blank">
+        <a href="http://openrouteservice.readthedocs.io/en/latest/" ng-bind-html="'<b>Disaster</b>OpenRouteService.org'" target="_blank">
         </a>
     </li>
     <li>
@@ -29,8 +29,18 @@
             </div>
         </div>
     </li>
+    <li>
+        <div class="ui item">
+           <i class= "fa fa-info-circle" ng-click="$ctrl.showInfo = !$ctrl.showInfo">
+           </i>
+        </div>
+    </li>
 </ul>
 <ors-modal show="$ctrl.showSettings">
     <div ng-include="'includes/settings.html'">
+    </div>
+</ors-modal>
+<ors-modal show="$ctrl.showInfo">
+    <div ng-include="'includes/info.html'">
     </div>
 </ors-modal>
