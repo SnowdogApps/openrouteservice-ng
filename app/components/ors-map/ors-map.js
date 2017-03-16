@@ -7,7 +7,6 @@ angular.module('orsApp').directive('orsMap', () => {
         },
         link: (scope, element, attrs) => {},
         controller: ['$scope', '$compile', '$timeout', 'orsSettingsFactory', 'orsObjectsFactory', 'orsRequestService', 'orsUtilsService', 'orsMapFactory', 'orsCookiesFactory', ($scope, $compile, $timeout, orsSettingsFactory, orsObjectsFactory, orsRequestService, orsUtilsService, orsMapFactory, orsCookiesFactory) => {
-             
             const mapsurfer = L.tileLayer(orsNamespaces.layerMapSurfer.url, {
                 attribution: orsNamespaces.layerMapSurfer.attribution
             });
@@ -35,8 +34,18 @@ angular.module('orsApp').directive('orsMap', () => {
                 layerAccessibilityAnalysisNumberedMarkers: L.featureGroup(),
                 layerEmph: L.featureGroup(),
                 layerTracks: L.featureGroup(),
-                layerRouteNumberedMarkers: L.featureGroup()
+                layerRouteNumberedMarkers: L.featureGroup(),
+                layerDisasterBoundaries: L.featureGroup()
             };
+            L.geoJSON(lists.disasterRegions[0], {
+                style: lists.layerStyles.boundary()
+            }).addTo($scope.geofeatures.layerDisasterBoundaries);
+            L.geoJSON(lists.disasterRegions[1], {
+                style: lists.layerStyles.boundary()
+            }).addTo($scope.geofeatures.layerDisasterBoundaries);
+            L.geoJSON(lists.disasterRegions[2], {
+                style: lists.layerStyles.boundary()
+            }).addTo($scope.geofeatures.layerDisasterBoundaries);
             $scope.mapModel = {
                 map: $scope.orsMap,
                 geofeatures: $scope.geofeatures
@@ -55,6 +64,7 @@ angular.module('orsApp').directive('orsMap', () => {
                 position: "bottomright",
                 mappings: mappings
             });
+            // logos
             $scope.brand = L.control({
                 position: 'bottomleft'
             });
@@ -64,6 +74,26 @@ angular.module('orsApp').directive('orsMap', () => {
                 return div;
             };
             $scope.mapModel.map.addControl($scope.brand);
+            // disaster region switcher
+            $scope.disasterSwitcher = L.control({
+                position: 'bottomright'
+            });
+            $scope.switchRegions = () => {
+                orsNamespaces.services = {
+                    geocoding: orsNamespaces.disasterServicesRouting[$scope.disasterRegionVal].geocoding, //for address search requests
+                    routing: orsNamespaces.disasterServicesRouting[$scope.disasterRegionVal].routing, //for routing requests
+                    analyse: orsNamespaces.disasterServicesRouting[$scope.disasterRegionVal].isochrones //for accessibility analysis requests
+                };
+                $scope.orsMap.fitBounds(L.geoJSON(lists.disasterRegions[$scope.disasterRegionVal]).getBounds());
+            };
+            $scope.disasterSwitcher.onAdd = function(map) {
+                $scope.disasterVal = 0;
+                var div = $compile('<ors-disaster-list></ors-disaster-list>')($scope)[0];
+                return div;
+            };
+            $timeout(function() {
+                $scope.mapModel.map.addControl($scope.disasterSwitcher);
+            }, 500);
             /* AVOID AREA CONTROLLER */
             L.NewPolygonControl = L.Control.extend({
                 options: {
@@ -133,6 +163,7 @@ angular.module('orsApp').directive('orsMap', () => {
                 $scope.mapModel.geofeatures.layerAccessibilityAnalysisNumberedMarkers.addTo($scope.mapModel.map);
                 $scope.mapModel.geofeatures.layerEmph.addTo($scope.mapModel.map);
                 $scope.mapModel.geofeatures.layerTracks.addTo($scope.mapModel.map);
+                $scope.mapModel.geofeatures.layerDisasterBoundaries.addTo($scope.mapModel.map);
                 // add layer control
                 $scope.layerControls = L.control.layers($scope.baseLayers, $scope.overlays).addTo($scope.mapModel.map);
                 $scope.mapModel.map.editTools.featuresLayer = $scope.geofeatures.layerAvoid;
@@ -152,8 +183,8 @@ angular.module('orsApp').directive('orsMap', () => {
                 if (mapOptions.mapCenter) $scope.mapModel.map.panTo(mapOptions.mapCenter);
                 if (mapOptions.mapZoom) $scope.mapModel.map.setZoom(mapOptions.mapZoom);
             } else {
-                // Heidelberg
-                $scope.orsMap.setView([49.409445, 8.692953], 13);
+                // Africa Bounding Box
+                $scope.orsMap.setView([21.445313, 5.441022], 13);
             }
             /**
              * Listens to left mouse click on map
@@ -557,6 +588,38 @@ angular.module('orsApp').directive('orsAaPopup', ['$compile', '$timeout', 'orsSe
                 //fourth argument to not fire a request on add waypoint
                 scope.processMapWaypoint(idx, scope.displayPos, false, false);
             };
+        }
+    };
+}]);
+angular.module('orsApp').directive('orsDisasterList', ['$compile', '$timeout', 'orsSettingsFactory', ($compile, $timeout, orsSettingsFactory) => {
+    return {
+        restrict: 'E',
+        template: `
+                <div class="ui form ors-control">
+                  <div class="grouped fields">
+                    <label>Choose your region:</label>
+                    <div class="field">
+                      <div class="ui slider checkbox">
+                        <input type="radio" ng-model="disasterRegionVal" ng-value="0" ng-change="switchRegions()" name="disaster-region">
+                        <label>Africa</label>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="ui slider checkbox">
+                        <input type="radio" ng-model="disasterRegionVal" ng-value="1" ng-change="switchRegions()"  name="disaster-region">
+                        <label>South America</label>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="ui slider checkbox">
+                        <input type="radio" ng-model="disasterRegionVal" ng-value="2" ng-change="switchRegions()" name="disaster-region">
+                        <label>Indonesia</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>`,
+        link: (scope, elem, attr) => {
+            scope.disasterRegionVal = 0;
         }
     };
 }]);

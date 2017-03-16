@@ -42,11 +42,27 @@ orsNamespaces.schemata = {
  * important note: all URLs have been blanked out for security reasons
  * if you want to become an active ORS code contributor please contact us: openrouteserviceATgeog.uni-heidelberg.de
  */
+orsNamespaces.disasterServicesRouting = {
+    0: {
+        routing: 'http://129.206.7.95/disaster1/routes',
+        geocoding: 'http://129.206.7.95/disaster1/geocode',
+        isochrones: 'http://129.206.7.95/disaster1/isochrones'
+    },
+    1: {
+        routing: 'http://129.206.7.95/disaster2/routes',
+        geocoding: 'http://129.206.7.95/disaster2/geocode',
+        isochrones: 'http://129.206.7.95/disaster2/isochrones'
+    },
+    2: {
+        routing: 'http://129.206.7.95/disaster3/routes',
+        geocoding: 'http://129.206.7.95/disaster3/geocode',
+        isochrones: 'http://129.206.7.95/disaster3/isochrones'
+    },
+};
 orsNamespaces.services = {
-    geocoding: 'http://129.206.7.158/geocoding-test', //for address search requests
-    routing: 'http://129.206.7.158/routing-test', //for routing requests
-    tmc: 'http://129.206.228.124/routing-test?tmc',
-    analyse: 'http://129.206.7.158/analysis-test' //for accessibility analysis requests
+    geocoding: orsNamespaces.disasterServicesRouting[0].geocoding, //for address search requests
+    routing: orsNamespaces.disasterServicesRouting[0].routing, //for routing requests
+    analyse: orsNamespaces.disasterServicesRouting[0].isochrones //for accessibility analysis requests
 };
 /**
  * metadata used when generating (export) files on the openrouteservice

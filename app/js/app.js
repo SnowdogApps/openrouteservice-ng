@@ -21,11 +21,11 @@ angular.module('orsApp', ['orsApp.ors-nav', 'orsApp.ors-panel-routing', 'orsApp.
     $httpProvider.interceptors.push(function($q, $document, $injector) {
         return {
             'request': function(config) {
-                for (let k in orsNamespaces.services) {
-                    if (config.url == orsNamespaces.services[k]) {
-                        config.url = config.url + ak;
-                    }
-                }
+                // for (let k in orsNamespaces.services) {
+                //     if (config.url == orsNamespaces.services[k]) {
+                //         config.url = config.url + ak;
+                //     }
+                // }
                 return config || $q.when(config);
             },
             'response': function(response) {
