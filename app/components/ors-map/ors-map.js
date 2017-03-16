@@ -40,12 +40,6 @@ angular.module('orsApp').directive('orsMap', () => {
             L.geoJSON(lists.disasterRegions[0], {
                 style: lists.layerStyles.boundary()
             }).addTo($scope.geofeatures.layerDisasterBoundaries);
-            L.geoJSON(lists.disasterRegions[1], {
-                style: lists.layerStyles.boundary()
-            }).addTo($scope.geofeatures.layerDisasterBoundaries);
-            L.geoJSON(lists.disasterRegions[2], {
-                style: lists.layerStyles.boundary()
-            }).addTo($scope.geofeatures.layerDisasterBoundaries);
             $scope.mapModel = {
                 map: $scope.orsMap,
                 geofeatures: $scope.geofeatures
@@ -79,6 +73,10 @@ angular.module('orsApp').directive('orsMap', () => {
                 position: 'bottomright'
             });
             $scope.switchRegions = () => {
+                $scope.geofeatures.layerDisasterBoundaries.clearLayers();
+                L.geoJSON(lists.disasterRegions[$scope.disasterRegionVal], {
+                    style: lists.layerStyles.boundary()
+                }).addTo($scope.geofeatures.layerDisasterBoundaries);
                 orsNamespaces.services = {
                     geocoding: orsNamespaces.disasterServicesRouting[$scope.disasterRegionVal].geocoding, //for address search requests
                     routing: orsNamespaces.disasterServicesRouting[$scope.disasterRegionVal].routing, //for routing requests

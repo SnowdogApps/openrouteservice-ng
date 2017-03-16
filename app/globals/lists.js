@@ -534,7 +534,7 @@ lists.layerStyles = {
             "color": "#cf5f5f",
             "weight": 4,
             "opacity": 0.5,
-            "fillOpacity": 0.5
+            //"fillOpacity": 0.5
         };
     }
 };
