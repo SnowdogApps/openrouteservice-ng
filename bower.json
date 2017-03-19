@@ -29,7 +29,8 @@
     "angular-translate-loader-static-files": "2.13.0",
     "leaflet.editable": "^1.0.0",
     "leaflet.markercluster": "^1.0.3",
-    "leaflet.heightgraph": "*"
+    "leaflet.heightgraph": "*",
+    "rrose": "^0.2.0"
   },
   "resolutions": {
     "angular": "~1.5.10"
