@@ -40,6 +40,7 @@ angular.module('orsApp').directive('orsMap', () => {
             L.geoJSON(lists.disasterRegions[0], {
                 style: lists.layerStyles.boundary()
             }).addTo($scope.geofeatures.layerDisasterBoundaries);
+            $scope.orsMap.setMaxBounds(L.geoJSON(lists.disasterRegions[0]).getBounds());
             $scope.mapModel = {
                 map: $scope.orsMap,
                 geofeatures: $scope.geofeatures
@@ -77,11 +78,14 @@ angular.module('orsApp').directive('orsMap', () => {
                 L.geoJSON(lists.disasterRegions[$scope.disasterRegionVal], {
                     style: lists.layerStyles.boundary()
                 }).addTo($scope.geofeatures.layerDisasterBoundaries);
+
+
                 orsNamespaces.services = {
                     geocoding: orsNamespaces.disasterServicesRouting[$scope.disasterRegionVal].geocoding, //for address search requests
                     routing: orsNamespaces.disasterServicesRouting[$scope.disasterRegionVal].routing, //for routing requests
                     analyse: orsNamespaces.disasterServicesRouting[$scope.disasterRegionVal].isochrones //for accessibility analysis requests
                 };
+                $scope.orsMap.setMaxBounds(L.geoJSON(lists.disasterRegions[$scope.disasterRegionVal]).getBounds());
                 $scope.orsMap.fitBounds(L.geoJSON(lists.disasterRegions[$scope.disasterRegionVal]).getBounds());
             };
             $scope.disasterSwitcher.onAdd = function(map) {
