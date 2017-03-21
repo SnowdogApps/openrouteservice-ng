@@ -607,11 +607,11 @@ angular.module('orsApp').directive('orsAaPopup', ['$compile', '$timeout', 'orsSe
             };
         }
     };
-}]); << << << < HEAD
+}]);
 angular.module('orsApp').directive('orsDisasterList', ['$compile', '$timeout', 'orsSettingsFactory', ($compile, $timeout, orsSettingsFactory) => {
-                return {
-                    restrict: 'E',
-                    template: `
+    return {
+        restrict: 'E',
+        template: `
                 <div class="ui form ors-control">
                   <div class="grouped fields">
                     <label>Choose your region:</label>
@@ -635,11 +635,15 @@ angular.module('orsApp').directive('orsDisasterList', ['$compile', '$timeout', '
                     </div>
                   </div>
                 </div>`,
-                    link: (scope, elem, attr) => {
-                            scope.disasterRegionVal = 0; === === = angular.module('orsApp').directive('orsWelcomeBox', ['$translate', ($translate) => {
-                                return {
-                                    restrict: 'E',
-                                    template: `<div ng-attr-class="{{ 'ui message ors-map-message fade blue' }}" ng-show="show">
+        link: (scope, elem, attr) => {
+            scope.disasterRegionVal = 0;
+        }
+    };
+}]);
+angular.module('orsApp').directive('orsWelcomeBox', ['$translate', ($translate) => {
+    return {
+        restrict: 'E',
+        template: `<div ng-attr-class="{{ 'ui message ors-map-message fade blue' }}" ng-show="show">
             <i class="fa fa-close flright" data-ng-click="show = !show"></i>
             <div class="header" ng-bind-html="('WELCOME' | translate)">
             </div>
@@ -648,8 +652,8 @@ angular.module('orsApp').directive('orsDisasterList', ['$compile', '$timeout', '
                 </span>
             </div>
         </div>`,
-                                    link: (scope, elem, attr) => {
-                                        scope.show = true; >>> >>> > master
-                                    }
-                                };
-                            }]);
+        link: (scope, elem, attr) => {
+            scope.show = true;
+        }
+    };
+}]);
