@@ -479,8 +479,9 @@ ors-instructions {
 }
 
 .options-box {
-    padding-bottom: 15px;
-    padding-left: 15px;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.7rem;
     cursor: pointer;
 }
 
@@ -695,6 +696,10 @@ input:focus, input:active {
     z-index: 999;
 }
 
+.ors-map-message {
+    max-width: 300px;
+}
+
 
 /* Extras graphs */
 
@@ -839,15 +844,13 @@ input:focus, input:active {
 
 .leaflet-popup-tip {
     border-radius: 50px;
-        box-shadow: 0 2px 2px rgba(0,0,0,0.2) !important;
-
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2) !important;
 }
 
 .leaflet-popup-content-wrapper {
     border-radius: 0px;
-    box-shadow: 0 2px 2px rgba(0,0,0,0.2) !important;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2) !important;
 }
-
 
 a.leaflet-control-layers-toggle {
     width: 30px !important;
@@ -860,10 +863,10 @@ a.leaflet-control-layers-toggle {
 }
 
 a.leaflet-control-layers-toggle:before {
-    content: "\f039";
+    content: "\f278";
     font-family: FontAwesome;
     display: inline-block;
-    font-size: 14px;
+    font-size: 13px;
     line-height: 12px;
     color: #444;
     vertical-align: bottom;

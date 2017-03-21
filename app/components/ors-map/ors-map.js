@@ -78,8 +78,6 @@ angular.module('orsApp').directive('orsMap', () => {
                 L.geoJSON(lists.disasterRegions[$scope.disasterRegionVal], {
                     style: lists.layerStyles.boundary()
                 }).addTo($scope.geofeatures.layerDisasterBoundaries);
-
-
                 orsNamespaces.services = {
                     geocoding: orsNamespaces.disasterServicesRouting[$scope.disasterRegionVal].geocoding, //for address search requests
                     routing: orsNamespaces.disasterServicesRouting[$scope.disasterRegionVal].routing, //for routing requests
@@ -106,7 +104,7 @@ angular.module('orsApp').directive('orsMap', () => {
                         link = L.DomUtil.create('a', 'leaflet-avoidArea', container);
                     link.href = '#';
                     link.title = 'Create a new area avoid polygon';
-                    link.innerHTML = '<i class="fa fa-square-o"></i>';
+                    link.innerHTML = '<i class="fa fa-object-ungroup"></i>';
                     //return container;
                     L.DomEvent.on(link, 'click', L.DomEvent.stop).on(link, 'click', function() {
                         map.editTools.startPolygon();
@@ -186,7 +184,18 @@ angular.module('orsApp').directive('orsMap', () => {
                 if (mapOptions.mapZoom) $scope.mapModel.map.setZoom(mapOptions.mapZoom);
             } else {
                 // Africa Bounding Box
-                $scope.orsMap.setView([21.445313, 5.441022], 13);
+                $scope.orsMap.setView([21.445313, 5.441022], 9);
+                // Welcome box
+                $scope.welcomeMsgBox = L.control({
+                    position: 'topright'
+                });
+                $scope.welcomeMsgBox.onAdd = function(map) {
+                    var div = $compile('<ors-welcome-box></ors-welcome-box>')($scope)[0];
+                    return div;
+                };
+                $timeout(function() {
+                    $scope.mapModel.map.addControl($scope.welcomeMsgBox);
+                }, 500);
             }
             /**
              * Listens to left mouse click on map
@@ -210,7 +219,7 @@ angular.module('orsApp').directive('orsMap', () => {
                 // has to wait for compile, update checks if popup within map
                 $timeout(function() {
                     popup.update();
-                },300);
+                }, 300);
             });
             //$scope.mapModel.map.on('baselayerchange', emitMapChangeBaseMap);
             //$scope.mapModel.map.on('overlayadd', emitMapChangeOverlay);
@@ -598,11 +607,11 @@ angular.module('orsApp').directive('orsAaPopup', ['$compile', '$timeout', 'orsSe
             };
         }
     };
-}]);
+}]); << << << < HEAD
 angular.module('orsApp').directive('orsDisasterList', ['$compile', '$timeout', 'orsSettingsFactory', ($compile, $timeout, orsSettingsFactory) => {
-    return {
-        restrict: 'E',
-        template: `
+                return {
+                    restrict: 'E',
+                    template: `
                 <div class="ui form ors-control">
                   <div class="grouped fields">
                     <label>Choose your region:</label>
@@ -626,8 +635,21 @@ angular.module('orsApp').directive('orsDisasterList', ['$compile', '$timeout', '
                     </div>
                   </div>
                 </div>`,
-        link: (scope, elem, attr) => {
-            scope.disasterRegionVal = 0;
-        }
-    };
-}]);
+                    link: (scope, elem, attr) => {
+                            scope.disasterRegionVal = 0; === === = angular.module('orsApp').directive('orsWelcomeBox', ['$translate', ($translate) => {
+                                return {
+                                    restrict: 'E',
+                                    template: `<div ng-attr-class="{{ 'ui message ors-map-message fade blue' }}" ng-show="show">
+            <i class="fa fa-close flright" data-ng-click="show = !show"></i>
+            <div class="header" ng-bind-html="('WELCOME' | translate)">
+            </div>
+            <div class="list">
+                <span ng-bind-html="('WELCOME_MESSAGE' | translate)">
+                </span>
+            </div>
+        </div>`,
+                                    link: (scope, elem, attr) => {
+                                        scope.show = true; >>> >>> > master
+                                    }
+                                };
+                            }]);
