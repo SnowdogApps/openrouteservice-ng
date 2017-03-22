@@ -44,19 +44,19 @@ orsNamespaces.schemata = {
  */
 orsNamespaces.disasterServicesRouting = {
     0: {
-        routing: 'http://129.206.7.95/disaster1/routes',
-        geocoding: 'http://129.206.7.95/disaster1/geocode',
-        isochrones: 'http://129.206.7.95/disaster1/isochrones'
+        routing: 'https://disaster-api.openrouteservice.org/disaster1/routes',
+        geocoding: 'https://disaster-api.openrouteservice.org/disaster1/geocode',
+        isochrones: 'https://disaster-api.openrouteservice.org/disaster1/isochrones'
     },
     1: {
-        routing: 'http://129.206.7.95/disaster2/routes',
-        geocoding: 'http://129.206.7.95/disaster2/geocode',
-        isochrones: 'http://129.206.7.95/disaster2/isochrones'
+        routing: 'https://disaster-api.openrouteservice.org/disaster2/routes',
+        geocoding: 'https://disaster-api.openrouteservice.org/disaster2/geocode',
+        isochrones: 'https://disaster-api.openrouteservice.org/disaster2/isochrones'
     },
     2: {
-        routing: 'http://129.206.7.95/disaster3/routes',
-        geocoding: 'http://129.206.7.95/disaster3/geocode',
-        isochrones: 'http://129.206.7.95/disaster3/isochrones'
+        routing: 'https://disaster-api.openrouteservice.org/disaster3/routes',
+        geocoding: 'https://disaster-api.openrouteservice.org/disaster3/geocode',
+        isochrones: 'https://disaster-api.openrouteservice.org/disaster3/isochrones'
     },
 };
 orsNamespaces.services = {
