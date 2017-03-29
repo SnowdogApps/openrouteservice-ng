@@ -201,7 +201,6 @@ ors-route, ors-analysis {
 
 .ors-profiles-options {
     border-bottom: 1px solid #CCC;
-    width: 344px;
     flex: 0 1 39px;
     z-index: 1;
 }
@@ -214,10 +213,6 @@ ors-route, ors-analysis {
 .ors-route-controls, .ors-instruction-controls {
     height: 39px;
     border-top: 1px solid #F0F0F0;
-}
-
-.ors-summary {
-    width: 344px;
 }
 
 .ors-summary ul, .ors-navigation ul {
@@ -373,7 +368,6 @@ ors-instructions {
 
 .ors-instructions-summary, .ors-analysis-settings {
     flex: 0 0 auto;
-    width: 344px;
 }
 
 .ors-bars {
@@ -874,6 +868,19 @@ a.leaflet-control-layers-toggle:before {
     width: 14px;
     height: 14px;
     text-align: center;
+}
+
+/** button size fix */
+
+a.leaflet-avoidArea {
+    width: 30px;
+    height: 30px;
+    font-size: 165%;
+}
+
+a.leaflet-avoidArea:hover {
+    width: 30px;
+    height: 30px;  
 }
 
 .block {
